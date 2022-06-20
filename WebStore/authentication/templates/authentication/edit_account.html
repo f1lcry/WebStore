@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+
+{% block content %}
+  <form action="{% url 'edit_account' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div>
+      {{ form.as_p }}
+    </div>
+    <button type="submit" class="btn btn-primary mb-5">Apply changes</button>
+  </form>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+    <form action="{% url 'login' %}" method="post" class="form-horizontal">
+        {% csrf_token %}
+        <div>
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary float-start">Login</button>
+        <p class="float-start px-2 py-auto">Don't  have an account?  </p>
+        <a href="{% url 'registration' %}" class="py-auto">Register now!</a>
+    </form>
+{% endblock %}

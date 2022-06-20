@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <style>
+        .mainStyle {
+            background-color: #e2e3e5!important;
+        }
+    </style>
+</head>
+<body class="mainStyle">
+    <div class="bg-white d-flex flex-column flex-md-row align-items-center py-2 mb-4 border-bottom">
+      <a href="/" class="d-flex align-items-center text-dark text-decoration-none px-5">
+          <img src="{{ MEDIA_URL }}shop_logo.png" style="max-width: 50px" class="img-fluid me-2" alt="shop_logo">
+          <span class="fs-4">FilStore</span>
+      </a>
+
+      <nav class="d-inline-flex mt-md-0 me-3 my-auto ms-md-auto">
+        <div class="dropdown me-1 mt-1">
+          <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Каталог товаров
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            {% for category in categories %}
+                <li><a class="dropdown-item" href="{% url 'product_list' category.pk %}">{{ category }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="dropdown me-1 mt-1">
+            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                Профиль
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                <li class="border-bottom border-3 text-center">{{ request.user }}</li>
+                {% if request.user.is_authenticated %}
+                <li><a class="dropdown-item me-3 py-2 text-dark text-decoration-none" href="{% url 'profile' %}">Аккаунт</a></li>
+                <li><a class="dropdown-item me-3 py-2 text-dark text-decoration-none" href="{% url 'logout' %}">Выйти</a></li>
+                {% else %}
+                <li><a class="dropdown-item me-3 py-2 text-dark text-decoration-none" href="{% url 'login' %}">Войти</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <span class="me-3 py-2  d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="hover focus" data-bs-content="Всего товаров {{ carts.1.count_carts_quantities }}">
+            <a class="text-dark text-decoration-none" href="{% url 'cart' %}">Cart</a>
+        </span>
+        <a class="me-3 py-2 text-dark text-decoration-none" href="#">Заказ</a>
+        <a class="me-3 py-2 text-dark text-decoration-none" href="#">Актуальное</a>
+      </nav>
+    </div>
+    <div class="container-lg px-sm-4">
+        <div class="row">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
+<script>
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+      return new bootstrap.Popover(popoverTriggerEl)
+    })
+</script>
+</html>

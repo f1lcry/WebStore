@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+  {% if request.user.image %}
+  <img style="max-width: 200px" class="my-3 mx-3 float-start border border-3 rounded-3 border-secondary" src="{{ MEDIA_URL }}{{ request.user.image }}" alt="image_{{ request.user.image }}">
+  {% else %}
+    <div class="my-3 me-5 text-center float-start">
+        <img src="{{ MEDIA_URL }}shop_logo.png" style="max-height: 200px" alt="shop_logo">
+        <p>The photo is missing</p>
+    </div>
+  {% endif %}
+  <div class="alert-sm alert-light py-3 px-3">
+    <h2 class="pb-2">{{ request.user.first_name }} {{ request.user.last_name }}</h2>
+    <p class="fs-3">{{ request.user.gender }}, {{ request.user.age }} years old</p>
+    <p class="fs-3">{{ request.user.address }}</p>
+    <p class="fs-4">date joined: {{ request.user.date_joined }}</p>
+    <a type="button" class="btn btn-secondary" href="{% url 'edit_account' %}">Edit</a>
+  </div>
+{% endblock %}

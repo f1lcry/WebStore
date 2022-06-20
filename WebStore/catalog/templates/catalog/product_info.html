@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ product.name }}</h1>
+    {% if product.image %}
+        <div style="max-width: 240px" class="float-start px-3 py-3 mb-3 me-3 border border-5 bg-white">
+            <img src="{{ MEDIA_URL }}{{ product.image }}" class="img-fluid" alt="image_{{ product.name }}">
+        </div>
+    {% else %}
+        <div class="float-start px-3 py-3 mb-3 me-3 border border-5 text-center">
+            <img src="{{ MEDIA_URL }}shop_logo.png" style="max-width: 200px" class="img-fluid" alt="shop_logo">
+            <p>The photo is missing</p>
+        </div>
+    {% endif %}
+    <h4 class="text-center mt-5">{{ product.price }} ₽</h4>
+    {% if product.is_available %}
+        <h4 class="text-success text-center">Available</h4>
+    {% else %}
+        <h4 class="text-danger text-center">Not available now</h4>
+    {% endif %}
+    {% if request.user.is_authenticated %}
+        <button class="btn btn-primary" id="addProductButton" value="{{ product.pk }}">Add to cart</button>
+<!--        <p>{{ product.pk }}</p>-->
+    {% endif %}
+    <p>Appeared {{ product.date_created }}</p>
+    <p>{{ product.description }}</p>
+    <div class="container">
+        <h5>Tags</h5>
+        {% if product.tags_product.all %}
+            {% for tag in product.tags_product.all %}
+                <a style="color: #4682B4" class="float-start px-1" href="{% url 'tags_list' tag.name %}" >{{ tag }}</a>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <script src="{% static 'js/product_buyer.js' %}"></script>
+{% endblock %}

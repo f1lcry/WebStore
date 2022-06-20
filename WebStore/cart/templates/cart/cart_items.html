@@ -1,0 +1,37 @@
+{% load static %}
+
+<div class="col-8">
+    <div class="shadow alert alert-light bg-body rounded">
+        <table class="table" id="cartTable">
+            <thead>
+                <tr>
+                    <th scope="col">Товар</th>
+                    <th scope="col">Цена</th>
+                    <th scope="col" colspan="2">Количество</th>
+                </tr>
+            </thead>
+            <tbody id="innerProducts">
+                {% for cart in carts %}
+                    <tr>
+                        <th scope="row">{{ cart.product.name }}</th>
+                        <td>{{ cart.product.price }} руб</td>
+                        <td><input type="number" value="{{ cart.total_quantity }}" min="0" name="{{ cart.pk }}" style="max-width: 3vw"></td>
+                        <td><button class="remove" value="{{ cart.pk }}">Убрать</button></td>
+                        {% if cart.is_checked %}
+                            <td><input type="checkbox" name="productCheck" data-cart-pk="{{ cart.pk }}" checked></td>
+                        {% else %}
+                            <td><input type="checkbox" name="productCheck" data-cart-pk="{{ cart.pk }}"></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="col-4">
+    <div class="shadow alert alert-light rounded">
+        {% include 'cart/total_cart.html' %}
+    </div>
+</div>
+
+<script src="{% static 'js/cart.js' %}"></script>
